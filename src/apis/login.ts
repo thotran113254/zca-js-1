@@ -55,6 +55,41 @@ export async function getServerInfo(ctx: ContextBase, encryptParams: boolean) {
     return data.data;
 }
 
+/**
+ * Fetch the current Zalo Web API version (`zpw_ver`) by scraping the live JS bundle
+ * served from chat.zalo.me. Zalo bumps this version periodically and rejects
+ * requests carrying a stale `zpw_ver`, surfacing as "Đăng nhập thất bại" at loginCookie.
+ *
+ * Returns 670 if scraping fails.
+ */
+export async function getApiVersion(ctx: ContextBase): Promise<number> {
+    try {
+        const response = await request(ctx, "https://chat.zalo.me/");
+        if (!response.ok) {
+            logger(ctx).error("getApiVersion: failed to fetch chat.zalo.me", response.statusText);
+            return 670;
+        }
+        const text = await response.text();
+        const match = text.match(/https:\/\/zalo-chat-static\.zadn\.vn\/v1\/lazy\/default-embed-render\.(\w+)\.js/);
+        if (match && match[0]) {
+            const defaultEmbedRenderURL = match[0];
+            const defaultEmbedRenderResponse = await request(ctx, defaultEmbedRenderURL, undefined, true);
+            if (!defaultEmbedRenderResponse.ok) {
+                logger(ctx).error("getApiVersion: failed to fetch embed-render js", defaultEmbedRenderResponse.statusText);
+                return 670;
+            }
+            const defaultEmbedRenderText = await defaultEmbedRenderResponse.text();
+            const versionMatch = defaultEmbedRenderText.match(/apiVersion:\s*(\d+)/);
+            if (versionMatch && versionMatch[1]) {
+                return parseInt(versionMatch[1], 10);
+            }
+        }
+    } catch (error) {
+        logger(ctx).error("getApiVersion: unexpected error", error);
+    }
+    return 670;
+}
+
 async function getEncryptParam(ctx: ContextBase, encryptParams: boolean, type: string) {
     const params = {} as Record<string, unknown>;
     const data = {

@@ -1,5 +1,5 @@
 import { loginQR, LoginQRCallbackEventType, type LoginQRCallback } from "./apis/loginQR.js";
-import { getServerInfo, login } from "./apis/login.js";
+import { getApiVersion, getServerInfo, login } from "./apis/login.js";
 import {
     createContext,
     isContextSession,
@@ -92,6 +92,15 @@ export class Zalo {
         ctx.cookie = this.parseCookies(credentials.cookie);
         ctx.userAgent = credentials.userAgent;
         ctx.language = credentials.language || "vi";
+
+        // Fork patch: Zalo bumps zpw_ver server-side; stale value -> getLoginInfo returns null
+        // -> "Đăng nhập thất bại". Resolve current version dynamically before calling login.
+        // Honor explicit override (this.options.apiVersion) if user passed one.
+        if (this.options.apiVersion == null) {
+            const liveApiVersion = await getApiVersion(ctx);
+            (ctx as { API_VERSION: number }).API_VERSION = liveApiVersion;
+            logger(ctx).info("Resolved live Zalo API version:", liveApiVersion);
+        }
 
         const loginData = await login(ctx, this.enableEncryptParam);
         const serverInfo = await getServerInfo(ctx, this.enableEncryptParam);

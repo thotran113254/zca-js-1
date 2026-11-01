@@ -163,4 +163,5 @@ export declare function hexToNegativeColor(hex: string): number;
  * const hexColor = negativeColorToHex(-16711936); // Result: '#00FF00'
  */
 export declare function negativeColorToHex(negativeColor: number): string;
+export declare function normalizeHolderName(input?: string): string | undefined;
 export {};

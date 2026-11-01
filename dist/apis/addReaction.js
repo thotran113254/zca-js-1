@@ -15,6 +15,9 @@ export const addReactionFactory = apiFactory()((api, ctx, utils) => {
      * @throws {ZaloApiError}
      */
     return async function addReaction(icon, dest) {
+        if (dest.type !== ThreadType.User && dest.type !== ThreadType.Group) {
+            throw new ZaloApiError("Thread type is invalid");
+        }
         const serviceURL = serviceURLs[dest.type];
         let rType, source;
         if (typeof icon == "object") {

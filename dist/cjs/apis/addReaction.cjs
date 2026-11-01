@@ -2,6 +2,7 @@
 
 var ZaloApiError = require('../Errors/ZaloApiError.cjs');
 require('../models/AutoReply.cjs');
+require('../models/Bank.cjs');
 require('../models/Board.cjs');
 var Enum = require('../models/Enum.cjs');
 require('../models/FriendEvent.cjs');
@@ -26,6 +27,9 @@ const addReactionFactory = utils.apiFactory()((api, ctx, utils) => {
      * @throws {ZaloApiError}
      */
     return async function addReaction(icon, dest) {
+        if (dest.type !== Enum.ThreadType.User && dest.type !== Enum.ThreadType.Group) {
+            throw new ZaloApiError.ZaloApiError("Thread type is invalid");
+        }
         const serviceURL = serviceURLs[dest.type];
         let rType, source;
         if (typeof icon == "object") {

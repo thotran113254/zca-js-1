@@ -3,7 +3,7 @@
 var semver = require('semver');
 var utils = require('./utils.cjs');
 
-const VERSION = "2.1.2";
+const VERSION = "2.2.0";
 const NPM_REGISTRY = "https://registry.npmjs.org/zca-js";
 async function checkUpdate(ctx) {
     var _a, _b;

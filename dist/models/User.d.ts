@@ -60,3 +60,11 @@ export type UserSetting = {
     view_birthday: number;
     setting_2FA_status: number;
 };
+export type UnchangedProfileInfo = {
+    oa_status: {
+        blocked: number;
+    };
+    isFr: number;
+    isBlocked: boolean;
+    lastActionTime: number;
+};

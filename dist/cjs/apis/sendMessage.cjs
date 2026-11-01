@@ -4,6 +4,7 @@ var FormData = require('form-data');
 var fs = require('node:fs/promises');
 var ZaloApiError = require('../Errors/ZaloApiError.cjs');
 require('../models/AutoReply.cjs');
+require('../models/Bank.cjs');
 require('../models/Board.cjs');
 var Enum = require('../models/Enum.cjs');
 require('../models/FriendEvent.cjs');
@@ -450,7 +451,7 @@ const sendMessageFactory = utils.apiFactory()((api, ctx, utils$1) => {
                 msg = "";
                 mentions = undefined;
             }
-            const handledData = await handleAttachment({ msg, mentions, attachments, quote, ttl, styles, urgency }, threadId, type);
+            const handledData = await handleAttachment({ msg, mentions, attachments, quote, ttl, urgency }, threadId, type);
             responses.attachment = await send(handledData);
             msg = "";
         }

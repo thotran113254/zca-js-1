@@ -88,9 +88,9 @@ class ParamsEncryptor {
         const t = (e, t) => {
             const { even: n } = ParamsEncryptor.processStr(e), { even: a, odd: s } = ParamsEncryptor.processStr(t);
             if (!n || !a || !s)
-                return !1;
+                return false;
             const i = n.slice(0, 8).join("") + a.slice(0, 12).join("") + s.reverse().slice(0, 12).join("");
-            return (this.encryptKey = i), !0;
+            return (this.encryptKey = i), true;
         };
         if (!this.zcid || !this.zcid_ext)
             throw new ZaloApiError.ZaloApiError("createEncryptKey: zcid or zcid_ext is null");
@@ -104,7 +104,7 @@ class ParamsEncryptor {
             if (e < 3)
                 this.createEncryptKey(e + 1);
         }
-        return !0;
+        return true;
     }
     getParams() {
         return this.zcid
@@ -655,6 +655,18 @@ function generateZaloUUID(userAgent) {
 function encryptPin(pin) {
     return crypto.createHash("md5").update(pin).digest("hex");
 }
+function normalizeHolderName(input) {
+    if (!input)
+        return undefined;
+    const normalized = input
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[đĐ]/g, "d")
+        .toUpperCase()
+        .replace(/[^A-Z0-9]+/g, " ")
+        .trim();
+    return normalized.length >= 5 ? normalized : undefined;
+}
 
 exports.ParamsEncryptor = ParamsEncryptor;
 exports.apiFactory = apiFactory;
@@ -684,6 +696,7 @@ exports.hasOwn = hasOwn;
 exports.isBun = isBun;
 exports.logger = logger;
 exports.makeURL = makeURL;
+exports.normalizeHolderName = normalizeHolderName;
 exports.removeUndefinedKeys = removeUndefinedKeys;
 exports.request = request;
 exports.resolveResponse = resolveResponse;

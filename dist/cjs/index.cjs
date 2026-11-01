@@ -5,6 +5,7 @@ var ZaloApiMissingImageMetadataGetter = require('./Errors/ZaloApiMissingImageMet
 var ZaloApiLoginQRAborted = require('./Errors/ZaloApiLoginQRAborted.cjs');
 var ZaloApiLoginQRDeclined = require('./Errors/ZaloApiLoginQRDeclined.cjs');
 var AutoReply = require('./models/AutoReply.cjs');
+var Bank = require('./models/Bank.cjs');
 var Board = require('./models/Board.cjs');
 var DeliveredMessage = require('./models/DeliveredMessage.cjs');
 var Enum = require('./models/Enum.cjs');
@@ -41,6 +42,10 @@ Object.defineProperty(exports, "AutoReplyScope", {
 	enumerable: true,
 	get: function () { return AutoReply.AutoReplyScope; }
 });
+Object.defineProperty(exports, "BinBankCard", {
+	enumerable: true,
+	get: function () { return Bank.BinBankCard; }
+});
 Object.defineProperty(exports, "BoardType", {
 	enumerable: true,
 	get: function () { return Board.BoardType; }
@@ -50,10 +55,6 @@ exports.UserDeliveredMessage = DeliveredMessage.UserDeliveredMessage;
 Object.defineProperty(exports, "AvatarSize", {
 	enumerable: true,
 	get: function () { return Enum.AvatarSize; }
-});
-Object.defineProperty(exports, "BinBankCard", {
-	enumerable: true,
-	get: function () { return Enum.BinBankCard; }
 });
 Object.defineProperty(exports, "DestType", {
 	enumerable: true,

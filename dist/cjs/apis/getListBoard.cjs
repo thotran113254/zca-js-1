@@ -2,6 +2,7 @@
 
 var ZaloApiError = require('../Errors/ZaloApiError.cjs');
 require('../models/AutoReply.cjs');
+require('../models/Bank.cjs');
 var Board = require('../models/Board.cjs');
 require('../models/Enum.cjs');
 require('../models/FriendEvent.cjs');

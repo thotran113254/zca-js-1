@@ -1,4 +1,4 @@
-import type { GroupSetting } from "../models/index.js";
+import type { GroupSetting, GroupType } from "../models/index.js";
 export type GetGroupLinkInfoPayload = {
     link: string;
     /**
@@ -10,7 +10,7 @@ export type GetGroupLinkInfoResponse = {
     groupId: string;
     name: string;
     desc: string;
-    type: number;
+    type: GroupType;
     creatorId: string;
     avt: string;
     fullAvt: string;

@@ -3,6 +3,7 @@
 var ZaloApiError = require('../Errors/ZaloApiError.cjs');
 var context = require('../context.cjs');
 require('../models/AutoReply.cjs');
+require('../models/Bank.cjs');
 require('../models/Board.cjs');
 var Enum = require('../models/Enum.cjs');
 require('../models/FriendEvent.cjs');

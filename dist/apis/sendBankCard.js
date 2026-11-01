@@ -1,7 +1,7 @@
 import { ZaloApiError } from "../Errors/ZaloApiError.js";
 import { ThreadType } from "../models/index.js";
 import { apiFactory } from "../utils.js";
-export const sendBankCardFactory = apiFactory()((api, ctx, utils) => {
+export const sendBankCardFactory = apiFactory()((api, _, utils) => {
     const serviceURL = utils.makeURL(`${api.zpwServiceMap.zimsg[0]}/api/transfer/card`);
     /**
      * Send bank card

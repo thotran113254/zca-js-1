@@ -2,6 +2,7 @@
 
 var ZaloApiError = require('../Errors/ZaloApiError.cjs');
 require('../models/AutoReply.cjs');
+require('../models/Bank.cjs');
 require('../models/Board.cjs');
 var Enum = require('../models/Enum.cjs');
 require('../models/FriendEvent.cjs');
@@ -12,7 +13,7 @@ require('../models/Reminder.cjs');
 require('../models/ZBusiness.cjs');
 var utils = require('../utils.cjs');
 
-const sendBankCardFactory = utils.apiFactory()((api, ctx, utils) => {
+const sendBankCardFactory = utils.apiFactory()((api, _, utils) => {
     const serviceURL = utils.makeURL(`${api.zpwServiceMap.zimsg[0]}/api/transfer/card`);
     /**
      * Send bank card

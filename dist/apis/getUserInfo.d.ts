@@ -1,7 +1,7 @@
-import { AvatarSize, type User } from "../models/index.js";
+import { AvatarSize, type UnchangedProfileInfo, type User } from "../models/index.js";
 export type ProfileInfo = User;
 export type UserInfoResponse = {
-    unchanged_profiles: Record<string, unknown>;
+    unchanged_profiles: Record<string, Partial<UnchangedProfileInfo>>;
     phonebook_version: number;
     changed_profiles: Record<string, ProfileInfo>;
 };

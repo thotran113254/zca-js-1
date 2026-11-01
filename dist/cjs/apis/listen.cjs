@@ -5,6 +5,7 @@ var WebSocket = require('ws');
 var FriendEvent = require('../models/FriendEvent.cjs');
 var GroupEvent = require('../models/GroupEvent.cjs');
 require('../models/AutoReply.cjs');
+require('../models/Bank.cjs');
 require('../models/Board.cjs');
 var DeliveredMessage = require('../models/DeliveredMessage.cjs');
 var Enum = require('../models/Enum.cjs');
@@ -184,7 +185,7 @@ class Listener extends EventEmitter {
                         ping();
                     }, this.ctx.settings.features.socket.ping_interval);
                 }
-                if (version == 1 && cmd == 501 && subCmd == 0) {
+                if (version == 1 && ([501, 551].includes(cmd)) && subCmd == 0) {
                     const parsedData = (await utils.decodeEventData(parsed, this.cipherKey)).data;
                     const { msgs } = parsedData;
                     for (const msg of msgs) {
